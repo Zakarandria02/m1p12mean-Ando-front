@@ -1,0 +1,16 @@
+<div class="min-h-screen flex flex-col">
+    <!-- Navbar sticky -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+      <app-navbar></app-navbar>
+    </header>
+  
+    <!-- Contenu principal -->
+    <main class="flex-grow">
+      <router-outlet></router-outlet>
+    </main>
+  
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+      <app-footer></app-footer>
+    </footer>
+  </div>
