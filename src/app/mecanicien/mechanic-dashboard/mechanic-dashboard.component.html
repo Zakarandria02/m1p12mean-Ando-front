@@ -1,0 +1,88 @@
+<div class="container mx-auto px-4 py-8">
+    <!-- Entête -->
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Tableau de bord mécanicien</h1>
+        <div class="text-sm text-gray-500">Aujourd'hui: {{ today | date:'dd/MM/yyyy' }}</div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="mb-4">
+        <button class="px-4 py-2 bg-gray-200 rounded mr-2" (click)="filterAppointments('all')">Tous</button>
+        <button class="px-4 py-2 bg-green-200 rounded mr-2" (click)="filterAppointments('Terminé')">Terminés</button>
+        <button class="px-4 py-2 bg-yellow-200 rounded mr-2" (click)="filterAppointments('En cours')">En cours</button>
+        <button class="px-4 py-2 bg-red-200 rounded" (click)="filterAppointments('En Attente')">En attente</button>
+    </div>
+
+    <!-- Liste des RDV -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let appointment of appointments" class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-5 border-b">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-lg">{{ appointment.vehicle }}</h3>
+                        <p class="text-gray-600">{{ appointment.client }}</p>
+                    </div>
+                    <span [ngClass]="{
+              'bg-yellow-100 text-yellow-800': appointment.status === 'En Attente',
+              'bg-blue-100 text-blue-800': appointment.status === 'En cours',
+              'bg-green-100 text-green-800': appointment.status === 'Terminé'
+            }" class="px-3 py-1 rounded-full text-xs font-medium">
+                        {{ appointment.status }}
+                    </span>
+                </div>
+            </div>
+            <div class="p-5">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-500">Heure:</span>
+                    <span>{{ appointment.time }}</span>
+                </div>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-500">Intervention:</span>
+                    <span>{{ appointment.service }}</span>
+                </div>
+                <button (click)="openIntervention(appointment)"
+                    class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                    Ouvrir la fiche
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Liste des rendez-vous 
+<div *ngFor="let appointment of appointments">
+    <p>{{ appointment.client }} - {{ appointment.service }} ({{ appointment.status }})</p>
+    <button (click)="openIntervention(appointment)" class="bg-blue-500 text-white px-4 py-2 rounded">
+      Voir détails
+    </button>
+  </div>-->
+
+<!-- Modal (visible uniquement si currentIntervention est défini) -->
+<div *ngIf="currentIntervention" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-bold mb-4">Détails de l'intervention</h2>
+
+        <p><strong>Client :</strong> {{ currentIntervention.client }}</p>
+        <p><strong>Véhicule :</strong> {{ currentIntervention.vehicle }}</p>
+        <p><strong>Service :</strong> {{ currentIntervention.service }}</p>
+
+        <!-- Formulaire pour mettre à jour le statut -->
+        <label for="status" class="block font-semibold mt-4">Mettre à jour le statut :</label>
+        <select [(ngModel)]="currentIntervention.status" class="w-full border p-2 rounded mt-2">
+            <option value="En attente">En attente</option>
+            <option value="En cours">En cours</option>
+            <option value="Terminé">Terminé</option>
+        </select>
+
+        <!-- Boutons -->
+        <div class="mt-4 flex justify-end space-x-2">
+            <button (click)="saveStatus()" class="bg-green-500 text-white px-4 py-2 rounded">Enregistrer</button>
+            <button (click)="closeIntervention()" class="bg-gray-500 text-white px-4 py-2 rounded">Fermer</button>
+        </div>
+    </div>
+</div>
+
+<!--{{ appointment.client }}</td>
+        <td class="border px-4 py-2">{{ appointment.vehicle }}</td>
+        <td class="border px-4 py-2">{{ appointment.service }}</td>
+        <td class="border px-4 py-2">{{ appointment.time }} -->

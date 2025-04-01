@@ -1,0 +1,62 @@
+<div class="w-64 bg-gray-800 text-white h-screen">
+    <div class="p-4 border-b border-gray-700">
+        <h1 class="first-letter:uppercase text-xl font-bold">{{userRole}} Panel</h1>
+    </div>
+    <nav class="p-4">
+        <ul class="space-y-2">
+            <div *ngIf="userRole === 'mechanic' else admTemplate">
+                <li>
+                    <a routerLink="/mechanic-dashboard" class="flex items-center p-2 bg-primary-600 rounded">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Rendez-vous</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/user-management" class="flex items-center p-2 hover:bg-gray-700 rounded">
+                        <i class="fas fa-user-tag mr-3"></i>
+                        <span>qui</span>
+                    </a>
+                </li>
+            </div>
+            <ng-template #admTemplate>
+
+                <li>
+                    <a routerLink="/manager-dashboard" class="flex items-center p-2 bg-primary-600 rounded">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Accueil</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/user-management" class="flex items-center p-2 hover:bg-gray-700 rounded">
+                        <i class="fas fa-user-tag mr-3"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/mechanic-tache" class="flex items-center p-2 bg-primary-600 rounded">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Tache mecano</span>
+                    </a>
+                </li>
+
+            </ng-template>
+            <li>
+                <a routerLink="#" class="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span>Paramètres</span>
+                </a>
+            </li>
+            <li class="mt-8">
+                <a (click)="logout()" class="flex items-center p-2 hover:bg-gray-700 rounded">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- mechanic-dashboard', component: MechanicDashboardComponent, canActivate: [RoleGuard], data: { roles: ['mechanic'] } },
+  { path: 'mechanic-intervention', component: InterventionSheetComponent, canActivate: [RoleGuard], data: { roles: ['mechanic'] } },
+  { path: 'manager-dashboard', component: ManagerDashboardComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
+  { path: 'user-management',-->

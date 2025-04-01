@@ -1,0 +1,103 @@
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-6">Gestion des Utilisateurs</h1>
+
+    <!-- Formulaire de création/édition -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-xl font-semibold mb-4">
+            {{ isEditMode ? 'Modifier Utilisateur' : 'Créer un Utilisateur' }}
+        </h2>
+
+        <form (ngSubmit)="isEditMode ? updateUser() : createUser()" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Nom</label>
+                <input type="text" [ngModel]="isEditMode ? currentUser?.nom : newUser.nom"
+                    (ngModelChange)="updateModel('nom', $event)" name="nom" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" [ngModel]="isEditMode ? currentUser?.email : newUser.email"
+                    (ngModelChange)="updateModel('email', $event)" name="email" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Téléphone</label>
+                <input type="tel" [ngModel]="isEditMode ? currentUser?.phone : newUser.phone"
+                    (ngModelChange)="updateModel('phone', $event)" name="phone" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Rôle</label>
+                <select [ngModel]="isEditMode ? currentUser?.role : newUser.role"
+                    (ngModelChange)="updateModel('role', $event)" name="role" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    <option value="admin">Admin</option>
+                    <option value="mechanic">Mécanicien</option>
+                    <option value="client">Client</option>
+                </select>
+            </div>
+
+            <div *ngIf="!isEditMode">
+                <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                <input type="password" [ngModel]="newUser.password" (ngModelChange)="updateModel('password', $event)"
+                    name="password" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            </div>
+
+            <div class="flex space-x-3">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">
+                    {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+                </button>
+
+                <button *ngIf="isEditMode" type="button" (click)="cancelEdit()"
+                    class="px-4 py-2 bg-gray-300 rounded-md">
+                    Annuler
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Liste des utilisateurs -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Téléphone</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rôle</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let user of users" class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {{ user.nom }} {{ user.prenom || '' }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ user.email }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ user.phone }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full"
+                            [class.bg-blue-100]="user.role === 'admin'" [class.text-blue-800]="user.role === 'admin'"
+                            [class.bg-green-100]="user.role === 'mechanic'"
+                            [class.text-green-800]="user.role === 'mechanic'"
+                            [class.bg-gray-100]="user.role === 'client'" [class.text-gray-800]="user.role === 'client'">
+                            {{ user.role }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap space-x-2">
+                        <button (click)="editUser(user)" class="text-blue-600 hover:text-blue-900">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                        <button (click)="deleteUser(user._id)" class="text-red-600 hover:text-red-900">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

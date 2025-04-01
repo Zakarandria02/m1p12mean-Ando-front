@@ -1,16 +1,27 @@
-<div class="min-h-screen flex flex-col">
+<div *ngIf="userRole === 'admin' || userRole === 'mechanic' else navbarTemplate" class="flex">
+  <header class="h-screen sticky top-0">
+    <app-admin></app-admin>
+  </header>
+
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+<ng-template #navbarTemplate>
+  <div class="min-h-screen flex flex-col">
     <!-- Navbar sticky -->
     <header class="sticky top-0 z-50 bg-white shadow-md">
       <app-navbar></app-navbar>
     </header>
-  
+
     <!-- Contenu principal -->
     <main class="flex-grow">
       <router-outlet></router-outlet>
     </main>
-  
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-4">
       <app-footer></app-footer>
     </footer>
   </div>
+</ng-template>

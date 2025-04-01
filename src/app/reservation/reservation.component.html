@@ -3,9 +3,15 @@
         class="border rounded-2xl py-1 px-4 text-slate-500 text-sm mb-5 hover:scale-105 transition duration-300 ease-in-out">Inspired
         by the amazing
         <span class="font-semibold">restorePhotos</span> app</a>
-    <h1 class="mx-auto max-w-4xl font-display text-5xl font-bold tracking-normal text-slate-900 sm:text-7xl">Garage Auto - Prendre 
+    <h1 class="mx-auto max-w-4xl font-display text-5xl font-bold tracking-normal text-slate-900 sm:text-7xl">Garage Auto
+        - Prendre
         <span class="relative whitespace-nowrap text-sky-400">
-            <svg aria-hidden="true" viewBox="0 0 418 42" class="absolute top-2/3 left-0 h-[0.58em] w-full fill-sky-300/70" preserveAspectRatio="none"><path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z"></path></svg>
+            <svg aria-hidden="true" viewBox="0 0 418 42"
+                class="absolute top-2/3 left-0 h-[0.58em] w-full fill-sky-300/70" preserveAspectRatio="none">
+                <path
+                    d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z">
+                </path>
+            </svg>
             <span class="relative">Rendez-vous</span>
         </span>
     </h1>
@@ -17,40 +23,82 @@
     </a> -->
 </main>
 <section class="flex items-center justify-center py-10">
-<div class="bg-white p-8 rounded-xl shadow-lg max-w-lg w-full">
-    <h2 class="text-2xl font-bold text-center mb-6">Réservez votre rendez-vous</h2>
-    <form class="space-y-4">
-        <div>
-            <label class="block font-medium">Nom et Prénom</label>
-            <input type="text" class="w-full p-2 border rounded-lg" placeholder="Votre nom et prénom" required>
-        </div>
-        <div>
-            <label class="block font-medium">Email</label>
-            <input type="email" class="w-full p-2 border rounded-lg" placeholder="Votre email" required>
-        </div>
-        <div>
-            <label class="block font-medium">Téléphone</label>
-            <input type="tel" class="w-full p-2 border rounded-lg" placeholder="Votre numéro" required>
-        </div>
-        <div>
-            <label class="block font-medium">Type de Véhicule</label>
-            <input type="text" class="w-full p-2 border rounded-lg" placeholder="Marque et modèle" required>
-        </div>
-        <div>
-            <label class="block font-medium">Prestation souhaitée</label>
-            <select class="w-full p-2 border rounded-lg" required>
-                <option>Vidange</option>
-                <option>Freinage</option>
-                <option>Diagnostic</option>
-                <option>Carrosserie</option>
-                <option>Dépannage</option>
-            </select>
-        </div>
-        <div>
-            <label class="block font-medium">Date et Heure</label>
-            <input type="datetime-local" class="w-full p-2 border rounded-lg" required>
-        </div>
-        <button type="submit" class="w-full bg-sky-600 text-white p-3 rounded-lg font-bold hover:bg-sky-700">Confirmer le rendez-vous</button>
-    </form>
-</div>
+    <div class="bg-white p-8 rounded-xl shadow-lg max-w-lg w-full">
+        <h2 class="text-2xl font-bold text-center mb-6">Réservez votre rendez-vous</h2>
+        <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <!-- Nom et Prénom -->
+            <div *ngIf="!isAuthenticated">
+                <div>
+                    <label class="block font-medium">Nom et Prénom</label>
+                    <input formControlName="nom" type="text" class="w-full p-2 border rounded-lg"
+                        placeholder="Votre nom et prénom">
+                    <p *ngIf="appointmentForm.get('name')?.invalid && appointmentForm.get('name')?.touched"
+                        class="text-red-500 text-sm mt-1">Ce champ est requis</p>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block font-medium">Email</label>
+                    <input formControlName="email" type="text" class="w-full p-2 border rounded-lg"
+                        placeholder="Votre email">
+                    <p *ngIf="appointmentForm.get('email')?.invalid && appointmentForm.get('email')?.touched"
+                        class="text-red-500 text-sm mt-1">Ce champ est requis</p>
+                </div>
+
+                <!-- Mot de passe (conditionnel) -->
+                <div>
+                    <label class="block font-medium">Mot de passe</label>
+                    <input formControlName="password" type="password" class="w-full p-2 border rounded-lg"
+                        placeholder="Votre mot de passe">
+                    <p *ngIf="appointmentForm.get('password')?.invalid && appointmentForm.get('password')?.touched"
+                        class="text-red-500 text-sm mt-1">Mot de passe requis pour les utilisateurs existants</p>
+                </div>
+                <!-- Téléphone -->
+                <div>
+                    <label class="block font-medium">Téléphone</label>
+                    <input formControlName="phone" type="tel" class="w-full p-2 border rounded-lg"
+                        placeholder="Votre numéro">
+                    <p *ngIf="appointmentForm.get('phone')?.invalid && appointmentForm.get('phone')?.touched"
+                        class="text-red-500 text-sm mt-1">Ce champ est requis</p>
+                </div>
+            </div>
+            <!-- Véhicule -->
+            <div>
+                <label class="block font-medium">Type de Véhicule</label>
+                <input formControlName="auto" type="text" class="w-full p-2 border rounded-lg"
+                    placeholder="Marque et modèle">
+                <p *ngIf="appointmentForm.get('auto')?.invalid && appointmentForm.get('auto')?.touched"
+                    class="text-red-500 text-sm mt-1">Ce champ est requis</p>
+            </div>
+
+            <!-- Prestation souhaitée -->
+            <div>
+                <label class="block font-medium">Prestation souhaitée</label>
+                <select formControlName="prestationId" class="w-full p-2 border rounded-lg">
+                    <option value="" disabled selected>Sélectionnez une option</option>
+                    <option *ngFor="let service of services" [value]="service._id">
+                        {{ service.nom }}
+                    </option>
+                </select>
+                <p *ngIf="appointmentForm.get('prestationId')?.invalid && (appointmentForm.get('prestationId')?.touched || appointmentForm.get('prestationId')?.dirty)"
+                    class="text-red-500 text-sm mt-1">Veuillez sélectionner une prestation</p>
+            </div>
+
+            <!-- Date et Heure -->
+            <div>
+                <label class="block font-medium">Date et Heure</label>
+                <input formControlName="date" type="datetime-local" class="w-full p-2 border rounded-lg">
+                <p *ngIf="appointmentForm.get('date')?.invalid && appointmentForm.get('date')?.touched"
+                    class="text-red-500 text-sm mt-1">Veuillez sélectionner une date</p>
+            </div>
+
+            <!-- Bouton de soumission -->
+            <button type="submit"
+                class="w-full bg-sky-600 text-white p-3 rounded-lg font-bold hover:bg-sky-700 transition-colors"
+                [disabled]="!appointmentForm.valid">
+                Confirmer le rendez-vous
+            </button>
+        </form>
+
+    </div>
 </section>

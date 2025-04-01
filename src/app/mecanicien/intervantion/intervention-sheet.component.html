@@ -1,0 +1,132 @@
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <!-- Entête -->
+        <div class="bg-gray-800 text-white p-5">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold">Fiche d'intervention #{{ intervention.id }}</h2>
+                <button (click)="closeIntervention()" class="text-white hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mt-2 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                    <div class="text-gray-400">Véhicule</div>
+                    <div>{{ intervention.vehicle }}</div>
+                </div>
+                <div>
+                    <div class="text-gray-400">Client</div>
+                    <div>{{ intervention.client }}</div>
+                </div>
+                <div>
+                    <div class="text-gray-400">Intervention</div>
+                    <div>{{ intervention.service }}</div>
+                </div>
+                <div>
+                    <div class="text-gray-400">Statut</div>
+                    <select [(ngModel)]="intervention.status"
+                        class="bg-gray-700 text-white border-none rounded px-2 py-1">
+                        <option>En attente</option>
+                        <option>En cours</option>
+                        <option>Terminé</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu -->
+        <div class="p-5">
+            <!-- Section description -->
+            <div class="mb-8">
+                <h3 class="font-bold text-lg mb-3 border-b pb-2">Description technique</h3>
+                <textarea [(ngModel)]="intervention.description" class="w-full p-3 border rounded-lg" rows="4"
+                    placeholder="Décrivez les travaux effectués..."></textarea>
+            </div>
+
+            <!-- Section photos -->
+            <div class="mb-8">
+                <h3 class="font-bold text-lg mb-3 border-b pb-2">Photos</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                    <div *ngFor="let photo of intervention.photos" class="relative">
+                        <img [src]="photo" alt="Photo intervention" class="rounded-lg w-full h-32 object-cover">
+                        <button (click)="removePhoto(photo)"
+                            class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="border-2 border-dashed rounded-lg flex items-center justify-center h-32 cursor-pointer"
+                        (click)="fileInput.click()">
+                        <div class="text-center p-4">
+                            <i class="fas fa-camera text-2xl text-gray-400 mb-2"></i>
+                            <div class="text-gray-500 text-sm">Ajouter une photo</div>
+                        </div>
+                        <input #fileInput type="file" accept="image/*" (change)="uploadPhoto($event)" class="hidden">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section pièces -->
+            <div>
+                <h3 class="font-bold text-lg mb-3 border-b pb-2">Demande de pièces</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-2 px-4 text-left">Référence</th>
+                                <th class="py-2 px-4 text-left">Désignation</th>
+                                <th class="py-2 px-4 text-left">Quantité</th>
+                                <th class="py-2 px-4 text-left">Stock</th>
+                                <th class="py-2 px-4 text-left"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let part of intervention.parts" class="border-b">
+                                <td class="py-3 px-4">{{ part.reference }}</td>
+                                <td class="py-3 px-4">{{ part.name }}</td>
+                                <td class="py-3 px-4">
+                                    <input type="number" [(ngModel)]="part.quantity" min="1"
+                                        class="w-16 border rounded px-2 py-1">
+                                </td>
+                                <td class="py-3 px-4">
+                                    <span [ngClass]="{
+                      'text-green-600': part.stock > 5,
+                      'text-yellow-600': part.stock <= 5 && part.stock > 0,
+                      'text-red-600': part.stock === 0
+                    }">
+                                        {{ part.stock }} disponible(s)
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <button (click)="removePart(part)" class="text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 flex items-center">
+                    <select [(ngModel)]="selectedPart" class="border rounded-lg px-4 py-2 mr-2">
+                        <option *ngFor="let part of availableParts" [ngValue]="part">
+                            {{ part.name }} ({{ part.reference }})
+                        </option>
+                    </select>
+                    <button (click)="addPart()"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-plus mr-2"></i>Ajouter
+                    </button>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-8 flex justify-end space-x-4">
+                <button class="px-6 py-2 border rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    Enregistrer brouillon
+                </button>
+                <button (click)="validateIntervention()"
+                    class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                    Valider l'intervention
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="container mx-auto p-4 mt-[90px]">
+    <h1 class="text-2xl font-bold mb-6">Mes Rendez-vous</h1>
+
+    @if (isLoading) {
+    <div class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+    }
+
+    @if (errorMessage) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ errorMessage }}
+    </div>
+    }
+
+    @if (!isLoading && appointments.length === 0) {
+    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+        Vous n'avez aucun rendez-vous programmé.
+    </div>
+    }
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        @for (appointment of appointments; track appointment.id) {
+        <div class="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="font-semibold text-lg mb-2">{{ appointment.vehicle.displayText }}</h3>
+
+            <div class="mb-2">
+                <span class="font-medium">Service:</span> {{ appointment.service }}
+            </div>
+
+            <div class="mb-2">
+                <span class="font-medium">Date:</span> {{ appointment.formattedDate }}
+            </div>
+
+            <div class="mb-3">
+                <span class="font-medium">Heure:</span> {{ appointment.formattedTime }}
+            </div>
+
+            <div class="flex items-center">
+                <span class="px-3 py-1 rounded-full text-sm font-medium {{ appointment.statusClass }}">
+                    {{ appointment.statusText }}
+                </span>
+            </div>
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-6">Gestion des tâches mécanicien</h1>
+
+    <h2 class="text-xl font-bold mb-6">Liste des Réservations</h2>
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 first-letter:uppercase">Client</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 first-letter:uppercase">Voiture</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 first-letter:uppercase">Prestation</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 first-letter:uppercase">Mécanicien</th>
+                <!-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 first-letter:uppercase">Description</th>-->
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 first-letter:uppercase">Date</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 first-letter:uppercase">Statut</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let reservation of reservations" class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">{{ reservation.user?.nom || 'Non assigné' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ reservation.auto?.marque }} - {{ reservation.auto?.modele }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ reservation.prestation?.nom }} - {{
+                    reservation.prestation?.prix }} Ar</td>
+                <td class="px-6 py-4 whitespace-nowrap"><select [(ngModel)]="selectedMecanicien[reservation._id]"
+                        class="form-control">
+                        <option value="" disabled selected class="text-black">Choisir un mécanicien</option>
+                        <option *ngFor="let mecano of mecaniciens" [value]="mecano._id">
+                            {{ mecano.nom }}
+                        </option>
+                    </select></td>
+                <!--  <td class="px-6 py-4 whitespace-nowrap">{{ reservation.description }}</td>-->
+                <td class="px-6 py-4 whitespace-nowrap">{{ reservation.date | date:'dd/MM/yyyy' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ reservation.status }}</td>
+                <td>
+                    <button (click)="assignMecanicien(reservation._id)"
+                        class="bg-green-600 hover:bg-green-700 text-white px-2 py-2 rounded-lg">Assigner</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
