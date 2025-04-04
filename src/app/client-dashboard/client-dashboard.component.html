@@ -1,47 +1,253 @@
 <div class="container mx-auto p-4 mt-[90px]">
-    <h1 class="text-2xl font-bold mb-6">Mes Rendez-vous</h1>
+    <div class="flex flex-col lg:flex-row">
+        <div class="w-full lg:w-2/5 p-8">
+            <h1 class="text-2xl font-bold">Profile</h1>
+            <div class="container mt-5">
+                <div class="card shadow p-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0 text-lg font-semibold text-green-200">Mon Portefeuille</h3>
+                    </div>
+                    <div class="card-body">
 
-    @if (isLoading) {
-    <div class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-    }
+                        <!-- Affichage du solde -->
+                        <div *ngIf="isLoading" class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                        </div>
 
-    @if (errorMessage) {
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        {{ errorMessage }}
-    </div>
-    }
+                        <div *ngIf="!isLoading" class="mb-4">
+                            <h4 class="d-flex justify-content-between align-items-center">
+                                <span>Solde actuel:</span>
+                                <span class="badge bg-success fs-4">{{ solde | currency:'MGA':'symbol':'1.2-2' }}</span>
+                            </h4>
+                        </div>
 
-    @if (!isLoading && appointments.length === 0) {
-    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
-        Vous n'avez aucun rendez-vous programmé.
-    </div>
-    }
+                        <!-- Gestion des erreurs -->
+                        <div *ngIf="errorMessage" class="alert alert-danger">
+                            {{ errorMessage }}
+                        </div>
 
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        @for (appointment of appointments; track appointment.id) {
-        <div class="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-            <h3 class="font-semibold text-lg mb-2">{{ appointment.vehicle.displayText }}</h3>
+                        <!-- Formulaire d'ajout/retrait -->
+                        <div class="mb-3">
+                            <label for="montant" class="block text-sm font-medium text-gray-700">Montant</label>
+                            <input type="number" class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                                id="montant" [(ngModel)]="montant" placeholder="Entrez le montant" step="0.01" min="0">
+                        </div>
 
-            <div class="mb-2">
-                <span class="font-medium">Service:</span> {{ appointment.service }}
+                        <div class="flex gap-4">
+                            <button
+                                class=" bg-green-500 px-3 py-2 rounded-lg flex flex-row items-center justify-center gap-2 hover:bg-green-600"
+                                (click)="ajouterArgent()" [disabled]="isLoading">
+                                <svg width="20" height="20" viewBox="0 0 32 32" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <title>plus-circle</title>
+                                        <desc>Created with Sketch Beta.</desc>
+                                        <defs> </defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                                            sketch:type="MSPage">
+                                            <g id="Icon-Set" sketch:type="MSLayerGroup"
+                                                transform="translate(-464.000000, -1087.000000)" fill="#000000">
+                                                <path
+                                                    d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z"
+                                                    id="plus-circle" sketch:type="MSShapeGroup"> </path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg> Ajouter
+                            </button>
+                            <button
+                                class="bg-yellow-500 px-3 py-2 rounded-lg flex flex-row items-center justify-center gap-2 hover:bg-yellow-600"
+                                (click)="retirerArgent()" [disabled]="isLoading">
+                                <svg width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+                                    fill="#000000" class="bi bi-dash-circle">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z">
+                                        </path>
+                                        <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
+                                    </g>
+                                </svg> Retirer
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="mb-2">
-                <span class="font-medium">Date:</span> {{ appointment.formattedDate }}
-            </div>
+        </div>
+        <div class="w-full lg:w-3/5">
+            <h1 class="text-2xl font-bold mb-6">Mes Rendez-vous</h1>
 
-            <div class="mb-3">
-                <span class="font-medium">Heure:</span> {{ appointment.formattedTime }}
+            @if (isLoading) {
+            <div class="flex justify-center items-center py-12">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
             </div>
+            }
 
-            <div class="flex items-center">
-                <span class="px-3 py-1 rounded-full text-sm font-medium {{ appointment.statusClass }}">
-                    {{ appointment.statusText }}
-                </span>
+            @if (errorMessage) {
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ errorMessage }}
+            </div>
+            }
+
+            @if (!isLoading && appointments.length === 0) {
+            <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+                Vous n'avez aucun rendez-vous programmé.
+            </div>
+            }
+
+            <div class="grid gap-4 md:grid-cols-2">
+                @for (appointment of appointments; track appointment.id) {
+                <div class="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex flex-1 items-center gap-2">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M5 13H8M2 9L4 10L5.27064 6.18807C5.53292 5.40125 5.66405 5.00784 5.90729 4.71698C6.12208 4.46013 6.39792 4.26132 6.70951 4.13878C7.06236 4 7.47705 4 8.30643 4H15.6936C16.523 4 16.9376 4 17.2905 4.13878C17.6021 4.26132 17.8779 4.46013 18.0927 4.71698C18.3359 5.00784 18.4671 5.40125 18.7294 6.18807L20 10L22 9M16 13H19M6.8 10H17.2C18.8802 10 19.7202 10 20.362 10.327C20.9265 10.6146 21.3854 11.0735 21.673 11.638C22 12.2798 22 13.1198 22 14.8V17.5C22 17.9647 22 18.197 21.9616 18.3902C21.8038 19.1836 21.1836 19.8038 20.3902 19.9616C20.197 20 19.9647 20 19.5 20H19C17.8954 20 17 19.1046 17 18C17 17.7239 16.7761 17.5 16.5 17.5H7.5C7.22386 17.5 7 17.7239 7 18C7 19.1046 6.10457 20 5 20H4.5C4.03534 20 3.80302 20 3.60982 19.9616C2.81644 19.8038 2.19624 19.1836 2.03843 18.3902C2 18.197 2 17.9647 2 17.5V14.8C2 13.1198 2 12.2798 2.32698 11.638C2.6146 11.0735 3.07354 10.6146 3.63803 10.327C4.27976 10 5.11984 10 6.8 10Z"
+                                        stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                    </path>
+                                </g>
+                            </svg>
+
+                            <h3 class="font-semibold text-lg">{{ appointment.auto.marque }} {{ appointment.auto.modele
+                                }}</h3>
+                        </div>
+                        <button (click)="openIntervention(appointment)" class=""><svg class="text-indigo-600"
+                                fill="currentColor" width="40" height="40" viewBox="0 0 32 32" id="icon"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <defs>
+                                        <style>
+                                            .cls-1 {
+                                                fill: none;
+                                            }
+                                        </style>
+                                    </defs>
+                                    <rect x="16" y="28" width="7" height="2"></rect>
+                                    <rect x="16" y="24" width="14" height="2"></rect>
+                                    <rect x="16" y="20" width="14" height="2"></rect>
+                                    <polygon
+                                        points="4 20 4 22 8.586 22 2 28.586 3.414 30 10 23.414 10 28 12 28 12 20 4 20">
+                                    </polygon>
+                                    <path
+                                        d="M28,8H16L12.5859,4.5859A2.0007,2.0007,0,0,0,11.1716,4H4A2,2,0,0,0,2,6V18H4V6h7.1716l3.4141,3.4141L15.1716,10H28v8h2V10A2,2,0,0,0,28,8Z">
+                                    </path>
+                                    <rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1"
+                                        width="32" height="32"></rect>
+                                </g>
+                            </svg></button>
+                    </div>
+
+                    <div class="mb-2">
+                        <span class="font-semibold">Prestations:</span>
+                        <tr *ngFor="let item of appointment.prestations" class="border-b border-gray-100">
+                            <td class="text-gray-700">{{item.nom}}</td>
+                        </tr>
+                    </div>
+
+                    <div class="mb-2">
+                        <span class="font-semibold">Date:</span> {{ appointment.date }}
+                    </div>
+
+                    <div class="mb-3 flex flex-row items-center gap-2">
+                        <span class="font-semibold">Payment:</span>
+                        <span class="badge py-1 px-4 rounded-full"
+                            [class.bg-blue-100]="appointment.paiement === 'En Attente'"
+                            [class.text-blue-800]="appointment.paiement === 'En Attente'"
+                            [class.bg-green-100]="appointment.paiement === 'Payé'"
+                            [class.text-green-800]="appointment.paiement === 'Payé'"
+                            [class.bg-gray-100]="appointment.paiement === 'Impayé'"
+                            [class.text-gray-800]="appointment.paiement === 'Impayé'">
+                            {{appointment.paiement }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center text-[17px]">
+                        <span [ngClass]="{
+                            'bg-yellow-100 text-yellow-800': appointment.status === 'En Attente',
+                            'bg-blue-100 text-blue-800': appointment.status === 'En Cours',
+                            'bg-green-100 text-green-800': appointment.status === 'Terminé'
+                          }" class="px-3 py-1 rounded-full text-sm font-medium">
+                            {{ appointment.status }}
+                        </span>
+                    </div>
+                </div>
+                }
             </div>
         </div>
-        }
+    </div>
+</div>
+
+<div *ngIf="currentIntervention" class="fixed inset-0 flex items-center justify-center">
+    <div class="bg-white border rounded-lg shadow-lg px-4 py-8 max-w-lg mx-auto mt-8" [class.max-w-4xl]="printMode">
+
+        <!-- Bouton Fermer -->
+        <div class="flex">
+            <div class="text-center mb-6">
+                <h1 class="font-bold text-2xl my-4 text-blue-600">Garages Services</h1>
+            </div>
+            <button class="top-2 right-2 text-gray-600" (click)="closeModal()">&times;</button>
+        </div>
+
+        <!-- Facture -->
+        <p class="text-gray-600">Numéro: {{ currentIntervention._id }}</p>
+        <p class="text-gray-600">Date: {{ currentIntervention.date | date:'dd/MM/yyyy HH:mm' }}</p>
+
+        <h3 class="text-lg font-bold mb-2 text-gray-800">Client:</h3>
+        <p class="text-gray-700">{{ currentIntervention.user.nom }} : {{ currentIntervention.user.email }}</p>
+
+        <h3 class="text-lg font-bold mb-2 text-gray-800">Mécanicien:</h3>
+        <p class="text-gray-700">{{ currentIntervention.mecanicienId.nom }}</p>
+        <p class="text-gray-700">{{ currentIntervention.mecanicienId.email }}</p>
+
+        <!-- Détails -->
+        <table class="w-full mb-8 border-collapse">
+            <thead>
+                <tr class="border-b-2 border-gray-200">
+                    <th class="text-left py-2 font-bold text-gray-700">Description</th>
+                    <th class="text-right py-2 font-bold text-gray-700">Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th class="font-semibold text-gray-900">Prestations</th>
+                <tr *ngFor="let item of currentIntervention.prestations" class="border-b border-gray-100">
+                    <td class="py-2 text-gray-700">{{item.nom}}</td>
+                    <td class="py-2 text-right text-gray-700">{{item.prix | currency:'EUR':'symbol':'1.2-2'}}</td>
+                </tr>
+                <th class="font-semibold text-gray-900">Pieces</th>
+                <tr *ngFor="let pieces of currentIntervention.piece" class="border-b border-gray-100">
+                    <td class="py-2 text-gray-700">{{pieces.lib}}</td>
+                    <td class="py-2 text-right text-gray-700">{{pieces.prix | currency:'EUR':'symbol':'1.2-2'}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="border-t-2 border-gray-200">
+                    <td class="py-2 font-bold text-gray-800">Total</td>
+                    <td class="py-2 text-right font-bold text-gray-800">{{currentIntervention.total |
+                        currency:'EUR':'symbol':'1.2-2'}}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="mt-6 flex justify-end space-x-3">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" (click)="printInvoice()">
+                Imprimer
+            </button>
+            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" (click)="markAsPaid()">
+                Marquer comme Payé
+            </button>
+        </div>
     </div>
 </div>

@@ -19,8 +19,8 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ reservation.user?.nom || 'Non assigné' }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ reservation.auto?.marque }} - {{ reservation.auto?.modele }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ reservation.prestation?.nom }} - {{
-                    reservation.prestation?.prix }} Ar</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ reservation.prestations?.nom }} - {{
+                    reservation.prestations?.prix }} Ar</td>
                 <td class="px-6 py-4 whitespace-nowrap"><select [(ngModel)]="selectedMecanicien[reservation._id]"
                         class="form-control">
                         <option value="" disabled selected class="text-black">Choisir un mécanicien</option>

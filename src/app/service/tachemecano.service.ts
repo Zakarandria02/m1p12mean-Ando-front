@@ -17,7 +17,18 @@ export class TachemecanoService {
     }
   
     // Mettre à jour le statut de la tâche
-    updateTacheStatus(appointmentId: string, status: string): Observable<any> {
-      return this.http.put(`${this.apiUrl}/appointments/tasks/${appointmentId}/status`, { status });
+    updateTacheStatus(appointmentId: string, statut: string): Observable<any> {
+      console.log("status", statut);
+      console.log("id", appointmentId);
+      return this.http.put(`${this.apiUrl}/appointments/${appointmentId}/status`, { statut });
+    }
+
+    getAllPieces(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/pieces`); // Récupère toutes les pièces
+    }
+
+    updateReservationPiece(appointmentId: string, pieceIds: string[]): Observable<any> {
+      const url = `${this.apiUrl}/appointments/${appointmentId}/piece`;
+      return this.http.put(url, { piece: pieceIds });
     }
 }

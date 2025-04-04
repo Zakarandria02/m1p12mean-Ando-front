@@ -1,0 +1,89 @@
+<div class="container mx-auto px-4 py-8">
+    <!-- Section pour gérer les pièces -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Gestion des pièces</h1>
+        <button (click)="openModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
+            Ajouter une pièce
+        </button>
+    </div>
+
+    <!-- Chargement -->
+    <div *ngIf="isLoading" class="text-center py-8">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+        <p class="mt-2 text-gray-600">Chargement en cours...</p>
+    </div>
+
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Table des pièces -->
+    <div *ngIf="!isLoading" class="bg-white shadow rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marque
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Référence
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Libellé
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantité
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let piece of pieces" class="hover:bg-gray-50"
+                    [ngClass]="{ 'bg-red-100': isLowStock(piece) }">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ piece.codearticle }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ piece.marque }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ piece.reference }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ piece.lib }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ piece.prix }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ piece.Qte }} <span
+                            *ngIf="isLowStock(piece)" class="text-red-500 font-semibold ml-2">(Stock bas)</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button (click)="openModal(true, piece)" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                            Modifier
+                        </button>
+                        <button (click)="deletePiece(piece._id)" class="text-red-600 hover:text-red-900">
+                            Supprimer
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div *ngIf="modalState.isOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-800">
+                {{ modalState.isEditMode ? 'Modifier la pièce' : 'Ajouter une pièce' }}
+            </h2>
+            <button (click)="closeModal()" class="text-gray-500 hover:text-gray-700">×</button>
+        </div>
+
+        <form [formGroup]="pieceForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <div *ngFor="let field of ['codearticle', 'marque', 'reference', 'lib', 'prix', 'Qte']">
+                <label [for]="field" class="block text-sm font-medium text-gray-700">{{ field | titlecase }}</label>
+                <input [id]="field" [formControlName]="field"
+                    class="w-full px-3 py-2 border rounded-md focus:ring focus:border-blue-500">
+            </div>
+
+            <div class="flex justify-end space-x-3 pt-4">
+                <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-300 rounded-md">Annuler</button>
+                <button type="submit" [disabled]="pieceForm.invalid"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md disabled:opacity-50">
+                    {{ modalState.isEditMode ? 'Modifier' : 'Créer' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

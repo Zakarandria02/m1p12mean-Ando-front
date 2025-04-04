@@ -19,6 +19,7 @@ import {InterventionSheetComponent} from './app/mecanicien/intervantion/interven
 import { ManagerDashboardComponent } from './app/admin/manager-dashboard/manager-dashboard.component';
 import { UserManagementComponent } from './app/admin/user-management/user-management.component';
 import { AttribueTacheComponent } from './app/admin/attribue-tache/attribue-tache.component';
+import { PieceManagementComponent } from './app/admin/piece-management/piece-management.component';
 import { RoleGuard } from './app/guards/role.guard';
 // import { AboutComponent } from './app/about.component';
 
@@ -34,6 +35,8 @@ const routes: Routes = [
   { path: 'manager-dashboard', component: ManagerDashboardComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
   { path: 'user-management', component: UserManagementComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
   { path: 'mechanic-tache', component: AttribueTacheComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
+  { path: 'piece-management', component: PieceManagementComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
+
 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   // { path: 'access-denied', component: AccessDeniedComponent }

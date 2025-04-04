@@ -10,6 +10,7 @@ import { InterventionSheetComponent } from './mecanicien/intervantion/interventi
 import { ManagerDashboardComponent } from './admin/manager-dashboard/manager-dashboard.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { AttribueTacheComponent } from './admin/attribue-tache/attribue-tache.component';
+import { PieceManagementComponent } from './admin/piece-management/piece-management.component';
 import { RoleGuard } from './guards/role.guard';
 
 
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'manager-dashboard', component: ManagerDashboardComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
   { path: 'user-management', component: UserManagementComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
   { path: 'mechanic-tache', component: AttribueTacheComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
+  { path: 'piece-management', component: PieceManagementComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
 
   // Ajoutez d'autres routes ici
   { path: '**', redirectTo: '' } // Redirige vers la page d'accueil pour les routes non trouvées

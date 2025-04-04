@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TachemecanoService } from '../../service/tachemecano.service';
-import { AuthService } from '../../service/auth.service'; // Importez votre service d'authentification
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-mechanic-dashboard',
@@ -20,17 +20,31 @@ export class MechanicDashboardComponent implements OnInit {
   appointments: any[] = [];
   currentIntervention: any = null;
   userId: string | null = null;
+  pieces: any[] = [];
+  response: any;
+  errorMessage: string | null = null;
+
+  modalState = {
+    isOpen: false,
+    appointmentId: null as string | null,
+    selectedPieces: [] as string[]
+  };
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private tacheService: TachemecanoService,
-    private authService: AuthService // Injection conservée
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.initializeData();
+  }
+
+  private initializeData(): void {
     this.extractUserId();
     if (this.userId) {
       this.loadAppointments();
+      this.loadPieces();
     } else {
       this.router.navigate(['/login']);
     }
@@ -38,51 +52,90 @@ export class MechanicDashboardComponent implements OnInit {
 
   private extractUserId(): void {
     try {
-      // Solution 1: Lecture directe depuis localStorage
       const token = localStorage.getItem('auth_token');
       if (token) {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        this.userId = payload.userId; // Correspond à votre structure Postman
+        this.userId = payload.userId;
       }
-      
-      // Solution alternative si userId n'est pas dans le token
+
       if (!this.userId) {
         const userData = localStorage.getItem('user');
         if (userData) {
-          const user = JSON.parse(userData);
-          this.userId = user._id;
+          this.userId = JSON.parse(userData)._id;
         }
       }
     } catch (e) {
-      console.error('Error extracting user ID:', e);
+      console.error('Erreur lors de l\'extraction de l\'ID utilisateur:', e);
     }
   }
 
-  loadAppointments(): void {
+  private loadAppointments(): void {
     if (!this.userId) return;
     
-    // Chargement des tâches pour ce mécanicien
     this.tacheService.getTachesByUser(this.userId).subscribe({
-      next: (data) => {
-        console.log(data, 'datadattta');
-        this.appointments = data.map(tache => ({
-          id: tache._id, // L'ID de la tâche
-          client: tache.user.nom,
-          vehicle: `${tache.auto.marque} ${tache.auto.modele}`.trim(),
-          service: tache.prestation.nom,
-          time: new Date(tache.date).toLocaleTimeString(),
-          status: tache.status
-        }));
+      next: (data) => this.appointments = data,
+      error: (error) => console.error('Erreur lors du chargement des rendez-vous:', error)
+    });
+  }
+
+  private loadPieces(): void {
+    this.tacheService.getAllPieces().subscribe({
+      next: (pieces) => this.pieces = pieces,
+      error: (error) => console.error('Erreur lors du chargement des pièces:', error)
+    });
+  }
+
+  openModal(appointmentId: string): void {
+    this.modalState = { isOpen: true, appointmentId, selectedPieces: [] };
+  }
+
+  closeModal(): void {
+    this.modalState = { isOpen: false, appointmentId: null, selectedPieces: [] };
+    this.response = null;
+    this.errorMessage = null;
+  }
+
+  toggleSelection(pieceId: string): void {
+    const { selectedPieces } = this.modalState;
+    this.modalState.selectedPieces = selectedPieces.includes(pieceId)
+      ? selectedPieces.filter(id => id !== pieceId)
+      : [...selectedPieces, pieceId];
+  }
+
+  sendRequest(): void {
+    const { appointmentId, selectedPieces } = this.modalState;
+    if (!appointmentId || selectedPieces.length === 0) {
+      this.errorMessage = "Veuillez sélectionner au moins une pièce.";
+      return;
+    }
+
+    this.tacheService.updateReservationPiece(appointmentId, selectedPieces).subscribe({
+      next: (response) => {
+        this.response = response;
+        this.errorMessage = null;
       },
       error: (error) => {
+        this.errorMessage = "Erreur lors de l'envoi de la requête.";
         console.error('Erreur:', error);
       }
     });
   }
 
-  // Ouvrir les détails de l'intervention pour modification
+  saveStatus(): void {
+    if (!this.currentIntervention) return;
+    console.log("id", this.currentIntervention._id)
+
+    this.tacheService.updateTacheStatus(this.currentIntervention._id, this.currentIntervention.status).subscribe({
+      next: () => {
+        console.log('Statut mis à jour avec succès' ,  this.currentIntervention.status );
+        this.loadAppointments();
+        this.closeIntervention();
+      },
+      error: (error) => console.error('Erreur lors de la mise à jour du statut :', error)
+    });
+  }
+
   openIntervention(appointment: any): void {
-    console.log('Ouverture du modal avec :', appointment);
     this.currentIntervention = { ...appointment };
   }
 
@@ -90,27 +143,6 @@ export class MechanicDashboardComponent implements OnInit {
     this.currentIntervention = null;
   }
 
-  // Sauvegarder le statut mis à jour dans le backend
-  saveStatus(): void {
-    if (!this.currentIntervention) return;
-
-    const updatedStatus = this.currentIntervention.status;
-    const appointmentId = this.currentIntervention.id;
-
-    // Mise à jour du statut de la tâche pour cette intervention
-    this.tacheService.updateTacheStatus(appointmentId, updatedStatus).subscribe(
-      () => {
-        console.log('Statut mis à jour avec succès');
-        this.loadAppointments(); // Recharger les rendez-vous après mise à jour
-        this.closeIntervention();
-      },
-      (error) => {
-        console.error('Erreur lors de la mise à jour du statut :', error);
-      }
-    );
-  }
-
-  // Filtrer les tâches par statut
   filterAppointments(status: string): void {
     if (status === 'all') {
       this.loadAppointments();

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReservationService } from '../service/reservation.service';
+import { PortfeuilleService } from '../service/portfeuille.service';
 
 // Interface pour le typage fort
 interface Appointment {
@@ -46,18 +47,33 @@ interface FormattedAppointment {
   styleUrls: ['./client-dashboard.component.css']
 })
 export class ClientDashboardComponent implements OnInit {
-  appointments: FormattedAppointment[] = [];
+  appointments: any[] = [];
   isLoading: boolean = true;
   errorMessage: string | null = null;
   userId: string | null = null;
+  solde: number = 0;
+  montant: number = 0;
+  currentInvoice: any = null;
+  currentIntervention: any = null;
+  printMode: boolean = false;
+
+  get today(): string {
+    return new Date().toLocaleDateString();
+  }
+
+  // get invoiceDate(): string {
+  //   return new Date(this.appointments.date).toLocaleDateString();
+  // }
 
   constructor(
     private router: Router, 
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    private portefeuilleService: PortfeuilleService
   ) {}
 
   ngOnInit(): void {
     this.initializeDashboard();
+    this.chargerPortefeuille();
   }
 
   private initializeDashboard(): void {
@@ -88,11 +104,11 @@ export class ClientDashboardComponent implements OnInit {
   loadAppointments(): void {
     this.isLoading = true;
     this.errorMessage = null;
-
+  
     this.reservationService.getClientReservations(this.userId!).subscribe({
-      next: (data: Appointment[]) => {
-        console.log('tesss', data)
-        this.appointments = this.formatAppointments(data);
+      next: (data: any[]) => {
+        console.log('Données brutes reçues:', data);
+        this.appointments = data; // Stocke directement les données API
         this.isLoading = false;
       },
       error: (error) => {
@@ -102,6 +118,30 @@ export class ClientDashboardComponent implements OnInit {
       }
     });
   }
+  
+
+  openIntervention(appointment: any): void {
+    console.log('Ouverture du modal avec :', appointment);
+    this.currentIntervention = appointment;
+  }
+
+
+  closeModal() {
+    this.currentIntervention = null;
+  }
+
+
+  markAsPaid(): void {
+    console.log("markAsPaid() appelée !");
+    // Ajoute ici la logique pour marquer une facture comme payée
+  }
+
+  printInvoice(): void {
+    console.log("printInvoice() appelée !");
+    window.print(); // Ouvre la boîte de dialogue d'impression
+  }
+  
+  
 
   private formatAppointments(appointments: Appointment[]): FormattedAppointment[] {
     return appointments.map(appointment => {
@@ -155,5 +195,64 @@ export class ClientDashboardComponent implements OnInit {
       statusText: statusInfo.text,
       status
     };
+  }
+
+  chargerPortefeuille(): void {
+    this.isLoading = true;
+    this.portefeuilleService.getMonPortefeuille().subscribe({
+      next: (data: any) => {
+        this.solde = data.money;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Erreur lors du chargement du portefeuille';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  ajouterArgent(): void {
+    if (this.montant <= 0) {
+      this.errorMessage = 'Le montant doit être positif';
+      return;
+    }
+
+    this.isLoading = true;
+    this.portefeuilleService.ajouterArgent(this.montant).subscribe({
+      next: () => {
+        this.solde += this.montant;
+        this.montant = 0;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Erreur lors de l\'ajout d\'argent';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  retirerArgent(): void {
+    if (this.montant <= 0) {
+      this.errorMessage = 'Le montant doit être positif';
+      return;
+    }
+
+    if (this.montant > this.solde) {
+      this.errorMessage = 'Solde insuffisant';
+      return;
+    }
+
+    this.isLoading = true;
+    this.portefeuilleService.retirerArgent(this.montant).subscribe({
+      next: () => {
+        this.solde -= this.montant;
+        this.montant = 0;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Erreur lors du retrait d\'argent';
+        this.isLoading = false;
+      }
+    });
   }
 }

@@ -19,12 +19,12 @@
             <div class="p-5 border-b">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-bold text-lg">{{ appointment.vehicle }}</h3>
-                        <p class="text-gray-600">{{ appointment.client }}</p>
+                        <h3 class="font-bold text-lg">{{ appointment.auto.marque }}</h3>
+                        <p class="text-gray-600">{{ appointment.user.nom }}</p>
                     </div>
                     <span [ngClass]="{
               'bg-yellow-100 text-yellow-800': appointment.status === 'En Attente',
-              'bg-blue-100 text-blue-800': appointment.status === 'En cours',
+              'bg-blue-100 text-blue-800': appointment.status === 'En Cours',
               'bg-green-100 text-green-800': appointment.status === 'Terminé'
             }" class="px-3 py-1 rounded-full text-xs font-medium">
                         {{ appointment.status }}
@@ -34,16 +34,29 @@
             <div class="p-5">
                 <div class="flex justify-between text-sm mb-2">
                     <span class="text-gray-500">Heure:</span>
-                    <span>{{ appointment.time }}</span>
+                    <span>{{ appointment.date }}</span>
                 </div>
-                <div class="flex justify-between text-sm mb-2">
+                <div class="flex flex-col text-sm mb-2">
                     <span class="text-gray-500">Intervention:</span>
-                    <span>{{ appointment.service }}</span>
+                    <h3 class="font-semibold text-gray-900">Prestations</h3>
+                    <ul *ngFor="let item of appointment.prestations" class="border-b border-gray-100">
+                        <li class="py-2 text-gray-700">{{item.nom}}</li>
+                        <li class="py-2 text-right text-gray-700">{{item.prix | currency:'EUR':'symbol':'1.2-2'}}</li>
+                    </ul>
+                    <h3 class="font-semibold text-gray-900">Pieces</h3>
+                    <ul *ngFor="let pieces of appointment.piece" class="border-b border-gray-100">
+                        <li class="py-2 text-gray-700">{{pieces.lib}}</li>
+                        <li class="py-2 text-right text-gray-700">{{pieces.prix | currency:'EUR':'symbol':'1.2-2'}}</li>
+                    </ul>
                 </div>
-                <button (click)="openIntervention(appointment)"
-                    class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-                    Ouvrir la fiche
-                </button>
+                <div class="flex items-center">
+                    <button (click)="openIntervention(appointment)"
+                        class="mt-4 bg-blue-600 text-white py-2 px-2 rounded-lg hover:bg-blue-700 transition">
+                        Ouvrir la fiche
+                    </button>
+                    <button (click)="openModal(appointment._id)" class="bg-gray-50 text-gray-700 px-2 py-3">Ajouter une
+                        pièce</button>
+                </div>
             </div>
         </div>
     </div>
@@ -62,15 +75,24 @@
     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 class="text-xl font-bold mb-4">Détails de l'intervention</h2>
 
-        <p><strong>Client :</strong> {{ currentIntervention.client }}</p>
-        <p><strong>Véhicule :</strong> {{ currentIntervention.vehicle }}</p>
-        <p><strong>Service :</strong> {{ currentIntervention.service }}</p>
+        <p><strong>Client :</strong> {{ currentIntervention.user.nom }}</p>
+        <p><strong>Véhicule :</strong> {{ currentIntervention.auto.marque }}</p>
+        <th class="font-semibold text-gray-900">Prestations</th>
+        <tr *ngFor="let item of currentIntervention.prestations" class="border-b border-gray-100">
+            <td class=" text-gray-700">{{item.nom}}</td>
+            <td class=" text-right text-gray-700">{{item.prix | currency:'EUR':'symbol':'1.2-2'}}</td>
+        </tr>
+        <th class="font-semibold text-gray-900">Pieces</th>
+        <tr *ngFor="let pieces of currentIntervention.piece" class="border-b border-gray-100">
+            <td class=" text-gray-700">{{pieces.lib}}</td>
+            <td class=" text-right text-gray-700">{{pieces.prix | currency:'EUR':'symbol':'1.2-2'}}</td>
+        </tr>
 
         <!-- Formulaire pour mettre à jour le statut -->
         <label for="status" class="block font-semibold mt-4">Mettre à jour le statut :</label>
         <select [(ngModel)]="currentIntervention.status" class="w-full border p-2 rounded mt-2">
-            <option value="En attente">En attente</option>
-            <option value="En cours">En cours</option>
+            <option value="En Attente">En attente</option>
+            <option value="En Cours">En cours</option>
             <option value="Terminé">Terminé</option>
         </select>
 
@@ -79,6 +101,11 @@
             <button (click)="saveStatus()" class="bg-green-500 text-white px-4 py-2 rounded">Enregistrer</button>
             <button (click)="closeIntervention()" class="bg-gray-500 text-white px-4 py-2 rounded">Fermer</button>
         </div>
+
+        <div *ngIf="response" class="mt-4 bg-green-100 text-green-700 p-2 rounded">
+            <h3 class="font-semibold">Réponse de l'API :</h3>
+            <pre>{{ response | json }}</pre>
+        </div>
     </div>
 </div>
 
@@ -86,3 +113,49 @@
         <td class="border px-4 py-2">{{ appointment.vehicle }}</td>
         <td class="border px-4 py-2">{{ appointment.service }}</td>
         <td class="border px-4 py-2">{{ appointment.time }} -->
+<!-- Bouton pour ouvrir le modal -->
+
+<!-- Le modal -->
+<div *ngIf="modalState.isOpen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+
+        <!-- Titre -->
+        <h2 class="text-xl font-semibold mb-4">Ajouter des pièces</h2>
+
+        <!-- Liste des pièces disponibles -->
+        <div *ngIf="pieces.length > 0; else loadingPieces">
+            <label class="block mb-2 font-medium">Sélectionnez les pièces :</label>
+            <ul class="space-y-2">
+                <li *ngFor="let piece of pieces" class="flex items-center space-x-2">
+                    <input type="checkbox" [value]="piece._id" (change)="toggleSelection(piece._id)"
+                        [checked]="modalState.selectedPieces.includes(piece._id)" class="accent-red-500">
+                    <span>{{ piece.lib }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Message de chargement -->
+        <ng-template #loadingPieces>
+            <p class="text-gray-500">Chargement des pièces...</p>
+        </ng-template>
+
+        <!-- Boutons d'action -->
+        <div class="mt-4 flex justify-end space-x-2">
+            <button (click)="closeModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded">Annuler</button>
+            <button (click)="sendRequest()" class="bg-blue-500 text-white px-4 py-2 rounded">Envoyer</button>
+        </div>
+
+        <!-- Réponse de l'API -->
+        <div *ngIf="response" class="mt-4 bg-green-100 text-green-700 p-2 rounded">
+            <h3 class="font-semibold">Réponse de l'API :</h3>
+            <pre>Insertion avec succées</pre>
+        </div>
+
+        <!-- Message d'erreur -->
+        <div *ngIf="errorMessage" class="mt-4 bg-red-100 text-red-700 p-2 rounded">
+            <h3 class="font-semibold">Erreur :</h3>
+            <p>{{ errorMessage }}</p>
+        </div>
+
+    </div>
+</div>
