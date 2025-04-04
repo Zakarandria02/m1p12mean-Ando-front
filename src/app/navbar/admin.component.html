@@ -7,7 +7,51 @@
             <div *ngIf="userRole === 'mechanic' else admTemplate">
                 <li>
                     <a routerLink="/mechanic-dashboard" class="flex items-center p-2 bg-primary-600 rounded">
-                        <i class="fas fa-users mr-3"></i>
+                        <svg class="mr-3" fill="#fff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
+                            width="25" height="25" stroke="#fff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <g>
+                                    <g>
+                                        <path
+                                            d="M404.211,40.421V0h-40.421v40.421H276.21V0h-40.421v40.421H148.21V0h-40.421v40.421H53.895V512h404.211V40.421H404.211z M417.684,471.579H94.316V161.684h323.368V471.579z M417.684,121.263H94.316V80.842h323.368V121.263z">
+                                        </path>
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <rect x="229.053" y="215.579" width="134.737" height="40.421"></rect>
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <rect x="148.21" y="215.579" width="40.421" height="40.421"></rect>
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <rect x="229.053" y="296.421" width="134.737" height="40.421"></rect>
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <rect x="148.21" y="296.421" width="40.421" height="40.421"></rect>
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <rect x="229.053" y="377.263" width="134.737" height="40.421"></rect>
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <rect x="148.21" y="377.263" width="40.421" height="40.421"></rect>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
                         <span>Rendez-vous</span>
                     </a>
                 </li>
@@ -22,25 +66,104 @@
 
                 <li>
                     <a routerLink="/manager-dashboard" class="flex items-center p-2 bg-primary-600 rounded">
-                        <i class="fas fa-users mr-3"></i>
+                        <svg class="mr-3" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="#CCCCCC" stroke-width="2.544">
+                                <path opacity="0.1"
+                                    d="M8.976 3C4.05476 3 3 4.05476 3 8.976V15.024C3 19.9452 4.05476 21 8.976 21H9V9H21V8.976C21 4.05476 19.9452 3 15.024 3H8.976Z"
+                                    fill="#fff"></path>
+                                <path
+                                    d="M3 8.976C3 4.05476 4.05476 3 8.976 3H15.024C19.9452 3 21 4.05476 21 8.976V15.024C21 19.9452 19.9452 21 15.024 21H8.976C4.05476 21 3 19.9452 3 15.024V8.976Z"
+                                    stroke="#fff" stroke-width="2"></path>
+                                <path d="M21 9L3 9" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                                <path d="M9 21L9 9" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path opacity="0.1"
+                                    d="M8.976 3C4.05476 3 3 4.05476 3 8.976V15.024C3 19.9452 4.05476 21 8.976 21H9V9H21V8.976C21 4.05476 19.9452 3 15.024 3H8.976Z"
+                                    fill="#fff"></path>
+                                <path
+                                    d="M3 8.976C3 4.05476 4.05476 3 8.976 3H15.024C19.9452 3 21 4.05476 21 8.976V15.024C21 19.9452 19.9452 21 15.024 21H8.976C4.05476 21 3 19.9452 3 15.024V8.976Z"
+                                    stroke="#fff" stroke-width="2"></path>
+                                <path d="M21 9L3 9" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                                <path d="M9 21L9 9" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </g>
+                        </svg>
                         <span>Accueil</span>
                     </a>
                 </li>
                 <li>
                     <a routerLink="/user-management" class="flex items-center p-2 hover:bg-gray-700 rounded">
-                        <i class="fas fa-user-tag mr-3"></i>
+                        <svg class="mr-3" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="#fffCCCCCC" stroke-width="1.584">
+                                <path opacity="0.15"
+                                    d="M12 11C13.6569 11 15 9.65685 15 8C15 6.34315 13.6569 5 12 5C10.3431 5 9 6.34315 9 8C9 9.65685 10.3431 11 12 11Z"
+                                    fill="#fff"></path>
+                                <path
+                                    d="M3 19H1V18C1 16.1362 2.27477 14.5701 4 14.126M6 10.8293C4.83481 10.4175 4 9.30621 4 7.99999C4 6.69378 4.83481 5.58254 6 5.1707M21 19H23V18C23 16.1362 21.7252 14.5701 20 14.126M18 5.1707C19.1652 5.58254 20 6.69378 20 7.99999C20 9.30621 19.1652 10.4175 18 10.8293M10 14H14C16.2091 14 18 15.7909 18 18V19H6V18C6 15.7909 7.79086 14 10 14ZM15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z"
+                                    stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path opacity="0.15"
+                                    d="M12 11C13.6569 11 15 9.65685 15 8C15 6.34315 13.6569 5 12 5C10.3431 5 9 6.34315 9 8C9 9.65685 10.3431 11 12 11Z"
+                                    fill="#fff"></path>
+                                <path
+                                    d="M3 19H1V18C1 16.1362 2.27477 14.5701 4 14.126M6 10.8293C4.83481 10.4175 4 9.30621 4 7.99999C4 6.69378 4.83481 5.58254 6 5.1707M21 19H23V18C23 16.1362 21.7252 14.5701 20 14.126M18 5.1707C19.1652 5.58254 20 6.69378 20 7.99999C20 9.30621 19.1652 10.4175 18 10.8293M10 14H14C16.2091 14 18 15.7909 18 18V19H6V18C6 15.7909 7.79086 14 10 14ZM15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z"
+                                    stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </g>
+                        </svg>
                         <span>Utilisateurs</span>
                     </a>
                 </li>
                 <li>
                     <a routerLink="/mechanic-tache" class="flex items-center p-2 bg-primary-600 rounded">
-                        <i class="fas fa-users mr-3"></i>
+                        <svg class="mr-3" fill="#fff" width="25" height="25" viewBox="0 0 36 36" version="1.1"
+                            preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" stroke="#fff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="#CCCCCC" stroke-width="0.072"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>tasks-solid-badged</title>
+                                <path class="clr-i-solid--badged clr-i-solid-path-1--badged"
+                                    d="M30,13.5a7.49,7.49,0,0,1-6.46-3.7H11.25V8a1,1,0,0,1,1-1h3.44V6.32a2.31,2.31,0,0,1,4.63,0V7h2.26a7.53,7.53,0,0,1-.07-1,7.53,7.53,0,0,1,.08-1.05h-.5a4.31,4.31,0,0,0-8.17,0H7A1.75,1.75,0,0,0,5,6.64V32.26a1.7,1.7,0,0,0,1.71,1.69H29.29A1.7,1.7,0,0,0,31,32.26V13.43A7.52,7.52,0,0,1,30,13.5Zm-4.23,3.71-9.12,9.12-5.24-5.24a1.4,1.4,0,0,1,2-2l3.26,3.26,7.14-7.14a1.4,1.4,0,1,1,2,2Z">
+                                </path>
+                                <circle class="clr-i-solid--badged clr-i-solid-path-2--badged clr-i-badge" cx="30"
+                                    cy="6" r="5"></circle>
+                                <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                            </g>
+                        </svg>
                         <span>Tache mecano</span>
                     </a>
                 </li>
                 <li>
                     <a routerLink="/piece-management" class="flex items-center p-2 bg-primary-600 rounded">
-                        <i class="fas fa-users mr-3"></i>
+                        <svg class="mr-3" fill="#fff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25"
+                            viewBox="0 0 489.264 489.264" xml:space="preserve" stroke="#fff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <g>
+                                    <g>
+                                        <path
+                                            d="M423.658,234.356c-12.438-0.003-24.01,3.457-33.869,9.468c-3.709,2.262-8.354,2.345-12.141,0.216 s-6.121-6.137-6.121-10.482V155.4c0-12.027-10.109-21.7-22.139-21.7h-95.748c-4.252,0-8.188-2.248-10.349-5.909 c-2.161-3.662-2.23-8.196-0.172-11.917c5.22-9.429,8.19-20.296,8.19-31.821c0-36.233-29.374-65.627-65.617-65.627 c-36.232,0-65.601,29.404-65.601,65.638c0,11.523,2.97,22.385,8.187,31.811c2.061,3.723,1.999,8.258-0.163,11.923 c-2.163,3.665-6.102,5.902-10.356,5.902H22.014c-12.032,0-22.013,9.673-22.013,21.7v76.237c0,4.231,2.226,8.15,5.859,10.318 c3.633,2.168,8.143,2.27,11.864,0.257c9.267-5.012,19.876-7.858,31.151-7.855c36.239-0.005,65.612,29.377,65.612,65.612 c0,36.238-29.373,65.616-65.612,65.606c-11.276,0-21.885-2.847-31.152-7.857c-3.725-2.014-8.234-1.92-11.871,0.25 C2.216,360.139,0,364.061,0,368.294v80.76c0,12.033,9.98,21.784,22.013,21.784h327.375c12.027,0,22.139-9.751,22.139-21.784 v-82.681c0-4.342,2.344-8.346,6.127-10.475c3.783-2.127,8.426-2.053,12.135,0.207c9.857,6.011,21.432,9.47,33.867,9.47 c36.24,0.01,65.607-29.368,65.607-65.606C489.264,263.734,459.896,234.351,423.658,234.356z">
+                                        </path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
                         <span>Pieces</span>
                     </a>
                 </li>
@@ -48,13 +171,43 @@
             </ng-template>
             <li>
                 <a routerLink="#" class="flex items-center p-2 hover:bg-gray-700 rounded">
-                    <i class="fas fa-cog mr-3"></i>
+                    <svg class="mr-3" width="25" height="25" viewBox="0 0 12 12" enable-background="new 0 0 12 12"
+                        id="Слой_1" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M10.25,6c0-0.1243286-0.0261841-0.241333-0.0366211-0.362915l1.6077881-1.5545654l-1.25-2.1650391 c0,0-1.2674561,0.3625488-2.1323853,0.6099854c-0.2034912-0.1431885-0.421875-0.2639771-0.6494751-0.3701782L7.25,0h-2.5 c0,0-0.3214111,1.2857666-0.5393066,2.1572876C3.9830933,2.2634888,3.7647095,2.3842773,3.5612183,2.5274658L1.428833,1.9174805 l-1.25,2.1650391c0,0,0.9641113,0.9321899,1.6077881,1.5545654C1.7761841,5.758667,1.75,5.8756714,1.75,6 s0.0261841,0.241333,0.0366211,0.362915L0.178833,7.9174805l1.25,2.1650391l2.1323853-0.6099854 c0.2034912,0.1432495,0.421875,0.2639771,0.6494751,0.3701782L4.75,12h2.5l0.5393066-2.1572876 c0.2276001-0.1062012,0.4459839-0.2269287,0.6494751-0.3701782l2.1323853,0.6099854l1.25-2.1650391L10.2133789,6.362915 C10.2238159,6.241333,10.25,6.1243286,10.25,6z M6,7.5C5.1715698,7.5,4.5,6.8284302,4.5,6S5.1715698,4.5,6,4.5S7.5,5.1715698,7.5,6 S6.8284302,7.5,6,7.5z"
+                                fill="#fff"></path>
+                        </g>
+                    </svg>
                     <span>Paramètres</span>
                 </a>
             </li>
             <li class="mt-8">
                 <a (click)="logout()" class="flex items-center p-2 hover:bg-gray-700 rounded">
-                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    <svg class="mr-4" fill="#ffffff" width="25" height="25" viewBox="0 0 24 24"
+                        id="sign-out-double-arrow" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg"
+                        class="icon flat-line">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <polyline id="primary" points="18 9 21 12 18 15"
+                                style="fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                            </polyline>
+                            <polyline id="primary-2" data-name="primary" points="13 9 16 12 13 15"
+                                style="fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                            </polyline>
+                            <line id="primary-3" data-name="primary" x1="16" y1="12" x2="7" y2="12"
+                                style="fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                            </line>
+                            <path id="primary-4" data-name="primary"
+                                d="M14,19v1a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V4A1,1,0,0,1,4,3h9a1,1,0,0,1,1,1V5"
+                                style="fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                            </path>
+                        </g>
+                    </svg>
                     <span>Déconnexion</span>
                 </a>
             </li>

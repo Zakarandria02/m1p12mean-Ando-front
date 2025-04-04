@@ -36,8 +36,7 @@ export class PieceManagementComponent implements OnInit {
       reference: ['', Validators.required],
       lib: ['', Validators.required],
       prix: [0, [Validators.required, Validators.min(0)]],
-      Qte: [0, [Validators.required, Validators.min(0)]],
-      seuil: [5, [Validators.required, Validators.min(0)]]
+      Qte: [0, [Validators.required, Validators.min(0)]]
     });
   }
 

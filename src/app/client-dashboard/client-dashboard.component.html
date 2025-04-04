@@ -194,21 +194,19 @@
     <div class="bg-white border rounded-lg shadow-lg px-4 py-8 max-w-lg mx-auto mt-8" [class.max-w-4xl]="printMode">
 
         <!-- Bouton Fermer -->
-        <div class="flex">
-            <div class="text-center mb-6">
-                <h1 class="font-bold text-2xl my-4 text-blue-600">Garages Services</h1>
-            </div>
-            <button class="top-2 right-2 text-gray-600" (click)="closeModal()">&times;</button>
+        <div class="flex justify-between items-center mb-2">
+            <h1 class="font-bold text-xl text-blue-600">Garages Services</h1>
+            <button class="text-xl text-gray-600" (click)="closeModal()">&times;</button>
         </div>
 
         <!-- Facture -->
         <p class="text-gray-600">Numéro: {{ currentIntervention._id }}</p>
         <p class="text-gray-600">Date: {{ currentIntervention.date | date:'dd/MM/yyyy HH:mm' }}</p>
 
-        <h3 class="text-lg font-bold mb-2 text-gray-800">Client:</h3>
+        <h3 class="text-base font-semibold mb-1 text-gray-800">Client:</h3>
         <p class="text-gray-700">{{ currentIntervention.user.nom }} : {{ currentIntervention.user.email }}</p>
 
-        <h3 class="text-lg font-bold mb-2 text-gray-800">Mécanicien:</h3>
+        <h3 class="text-base font-semibold mb-1 text-gray-800">Mécanicien:</h3>
         <p class="text-gray-700">{{ currentIntervention.mecanicienId.nom }}</p>
         <p class="text-gray-700">{{ currentIntervention.mecanicienId.email }}</p>
 
